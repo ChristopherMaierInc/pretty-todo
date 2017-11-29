@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "animate.css": "^3.5.2",
+    "jquery": "^3.2.1",
+    "letteringjs": "^0.7.0",
+    "pretty-letters": "^1.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
-    "reactbulma": "^1.1.1"
+    "reactbulma": "^1.1.1",
+    "textillate": "^0.4.1"
   },
   "scripts": {
     "start": "react-scripts start",

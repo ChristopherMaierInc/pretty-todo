@@ -22,10 +22,6 @@
   font-size: large;
 }
 
-.progress {
-  border-radius: 0 !important;
-}
-
 .input {
   text-align: center;
 }
@@ -38,6 +34,9 @@
   -webkit-user-select: none; /* Chrome/Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+ */
+}
+.level-item {
+  margin-top: 20px !important;
 }
 
 form {

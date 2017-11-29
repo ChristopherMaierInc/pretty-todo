@@ -1,8 +1,7 @@
 import React from 'react';
-import {Progress, Level, Heading, Title} from 'reactbulma';
+import {Progress, Level, Heading, Title, Container} from 'reactbulma';
 
 const Header = ({totalTasks, totalComplete, totalIncomplete, title}) => (<div>
-  <Progress primary="primary" value={totalComplete} max={totalTasks}></Progress>
   <Level>
     <Level.Item hasTextCentered="hasTextCentered">
       <div>
@@ -17,6 +16,9 @@ const Header = ({totalTasks, totalComplete, totalIncomplete, title}) => (<div>
       </div>
     </Level.Item>
   </Level>
+  <Container fluid="fluid">
+    <Progress primary="primary" value={totalComplete} max={totalTasks}></Progress>
+  </Container>
 </div>)
 
 export default Header;
