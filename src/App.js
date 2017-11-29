@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import './App.css';
 import Header from './components/header'
-import {Input, Notification} from 'reactbulma'
+import {Input, Notification, Button} from 'reactbulma'
 
 class App extends Component {
 
   state = {
-    tasks: ['Do the washing', 'Become a JS Weapon'],
+    tasks: [
+      { name: 'Do the washing', date: new Date("July 21, 1983 01:15:00") },
+      { name: 'Become a JS Weapon', date: new Date("July 21, 1983 01:15:00") }
+    ],
     searchPhrase: ''
   }
 
@@ -22,9 +25,10 @@ class App extends Component {
 
     // make a copy of the current tasks
     const currentTasks = [...this.state.tasks];
+    const existingItem = this.state.tasks.find(task => task.name === this.state.searchPhrase);
 
     // add the new task to our copy of tasks
-    !currentTasks.includes( this.state.searchPhrase ) && currentTasks.unshift( this.state.searchPhrase );
+    !existingItem && currentTasks.unshift({name: this.state.searchPhrase, date: new Date()});
 
     // Update the state with the new tasks
     this.setState({
@@ -37,27 +41,23 @@ class App extends Component {
 
     const { tasks, searchPhrase } = this.state
 
-    return (<div className="App">
-      <Header title="Incomplete" totalIncomplete={ tasks.length }/>
-        <div>
-          <form onSubmit={ this.addTask }>
-            <Input primary large
-            placeholder="Search / Add a Todo"
-            value={ searchPhrase }
-            onChange={ this.onChangeQuery }
-            />
-          </form>
-          {
-            tasks
-            .filter(myTask => myTask.includes(searchPhrase))
-            .map(myTask =>
+    return (
+      <div className="App">
+        <Header title="INCOMPLETE" totalIncomplete={ tasks.length }/>
+        <form onSubmit={ this.addTask }>
+          <Input primary placeholder="Search/Add to do!" value={ searchPhrase } onChange={ this.onChangeQuery }/><br /><br />
+          <Button primary>Submit</Button>
+        </form>
+        {
+          tasks
+          .filter(task => task.name.includes(searchPhrase))
+          .map(task => ([
             <Notification>
-              <p>{myTask}</p>
-            </Notification>
-          )
-          }
-        </div>
-      </div>);
+              <p>{task.name} - {task.date.toLocaleString()}</p>
+            </Notification>]))
+        }
+      </div>
+    );
   }
 }
 
