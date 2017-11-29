@@ -7,8 +7,13 @@ class App extends Component {
 
   state = {
     tasks: [
-      { name: 'Do the washing', date: new Date("July 21, 1983 01:15:00") },
-      { name: 'Become a JS Weapon', date: new Date("July 21, 1983 01:15:00") }
+      { id: 1,
+        name: 'Do the washing',
+        date: new Date("July 21, 1983 01:15:00"),
+        complete: false
+      },
+      { id: 2,
+        name: 'Become a JS Weapon', date: new Date("July 21, 1983 01:15:00"), complete: false }
     ],
     searchPhrase: ''
   }
@@ -28,13 +33,22 @@ class App extends Component {
     const existingItem = this.state.tasks.find(task => task.name === this.state.searchPhrase);
 
     // add the new task to our copy of tasks
-    !existingItem && currentTasks.unshift({name: this.state.searchPhrase, date: new Date()});
+    !existingItem && currentTasks.unshift({ name: this.state.searchPhrase, date: new Date(), complete: false });
 
     // Update the state with the new tasks
     this.setState({
       tasks: currentTasks,
       searchPhrase: ''
     })
+  }
+
+  changeCompletedStatus = (id) => {
+    const currentTasks = [...this.state.tasks];
+    const taskIndex = currentTasks.findIndex(task => task.id === id)
+    currentTasks[taskIndex].complete = !currentTasks[taskIndex].complete
+    this.setState(prevState => ({
+      tasks: currentTasks
+    }))
   }
 
   render() {
@@ -46,16 +60,20 @@ class App extends Component {
         <Header title="INCOMPLETE" totalIncomplete={ tasks.length }/>
         <form onSubmit={ this.addTask }>
           <Input primary placeholder="Search/Add to do!" value={ searchPhrase } onChange={ this.onChangeQuery }/><br /><br />
-          <Button primary>Submit</Button>
+
         </form>
         {
           tasks
           .filter(task => task.name.includes(searchPhrase))
           .map(task => ([
-            <Notification>
-              <p>{task.name} - {task.date.toLocaleString()}</p>
-            </Notification>]))
+            <Notification primary={task.complete}
+            onClick={() => this.changeCompletedStatus(task.id) }>
+              <p>{task.name}</p>
+              <p>{task.date.toLocaleString()}</p>
+            </Notification>
+          ]))
         }
+        <Button primary>Submit</Button>
       </div>
     );
   }
