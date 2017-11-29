@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Header from './components/header'
-import {Input} from 'reactbulma'
+import {Input, Notification} from 'reactbulma'
 
 class App extends Component {
 
@@ -47,7 +47,11 @@ class App extends Component {
           {
             tasks
             .filter(myTask => myTask.includes(searchPhrase))
-            .map(myTask => <p>{myTask}</p>)
+            .map(myTask =>
+            <Notification>
+              <p>{myTask}</p>
+            </Notification>
+          )
           }
         </div>
       </div>);
