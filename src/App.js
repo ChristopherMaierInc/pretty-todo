@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Header from './components/header'
-import {Input, Notification, Button, Title, SubTitle} from 'reactbulma'
+import {Input, Notification, Button, Title, SubTitle, Container, Content, Heading} from 'reactbulma'
 
 let currentId = 2;
 const genId = () => ++currentId;
@@ -65,6 +65,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <Container fluid>
         <Header totalTasks={tasks.length}
         totalIncomplete={ tasks.filter(task => !task.complete).length }
         totalComplete={ tasks.filter(task => task.complete).length }
@@ -72,24 +73,25 @@ class App extends Component {
         <form onSubmit={ this.addTask }>
           <Input
           autoFocus
-          primary
-          placeholder="Search/Add to do!"
+          primary medium
+          placeholder="Search or Add a New Task!"
           value={ searchPhrase }
           onChange={ this.onChangeQuery }
           /><br /><br />
-          <Button primary>Submit</Button>
+          <Button primary outlined medium>Submit</Button>
         </form>
         {
           tasks
           .filter(task => task.name.includes(searchPhrase))
           .map(task => ([
-              <Notification primary={task.complete}
+              <Notification bold primary={task.complete}
               onClick={() => this.changeCompletedStatus(task.id) }>
-                <Title is='5'>{task.name}</Title>
-                <SubTitle is='6'>{task.date.toLocaleString()}</SubTitle>
+                 <SubTitle is='3'>{task.name}</SubTitle>
+                <Heading>{task.date.toLocaleString()}</Heading>
               </Notification>
           ]))
         }
+        </Container>
       </div>
     );
   }
