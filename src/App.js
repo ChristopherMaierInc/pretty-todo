@@ -13,7 +13,10 @@ class App extends Component {
         complete: false
       },
       { id: 2,
-        name: 'Become a JS Weapon', date: new Date("July 21, 1983 01:15:00"), complete: false }
+        name: 'Become a JS Weapon',
+        date: new Date("July 21, 1983 01:15:00"),
+        complete: false
+      }
     ],
     searchPhrase: ''
   }
@@ -57,7 +60,8 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Header title="INCOMPLETE" totalIncomplete={ tasks.length }/>
+        <Header totalIncomplete={ tasks.filter(task => !task.complete).length }
+        totalComplete={ tasks.filter(task => task.complete).length } />
         <form onSubmit={ this.addTask }>
           <Input primary placeholder="Search/Add to do!" value={ searchPhrase } onChange={ this.onChangeQuery }/><br /><br />
 
