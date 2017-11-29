@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import './App.css';
 import Header from './components/header'
-import {Input, Notification, Button} from 'reactbulma'
+import {Input, Notification, Button, Title, SubTitle} from 'reactbulma'
+
+let currentId = 2;
+const genId = () => ++currentId;
 
 class App extends Component {
 
@@ -19,6 +22,8 @@ class App extends Component {
       }
     ],
     searchPhrase: ''
+
+
   }
 
   onChangeQuery = (event) => {
@@ -36,7 +41,7 @@ class App extends Component {
     const existingItem = this.state.tasks.find(task => task.name === this.state.searchPhrase);
 
     // add the new task to our copy of tasks
-    !existingItem && currentTasks.unshift({ name: this.state.searchPhrase, date: new Date(), complete: false });
+    !existingItem && currentTasks.unshift({ id: genId(), name: this.state.searchPhrase, date: new Date(), complete: false });
 
     // Update the state with the new tasks
     this.setState({
@@ -60,24 +65,31 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Header totalIncomplete={ tasks.filter(task => !task.complete).length }
-        totalComplete={ tasks.filter(task => task.complete).length } />
+        <Header totalTasks={tasks.length}
+        totalIncomplete={ tasks.filter(task => !task.complete).length }
+        totalComplete={ tasks.filter(task => task.complete).length }
+        />
         <form onSubmit={ this.addTask }>
-          <Input primary placeholder="Search/Add to do!" value={ searchPhrase } onChange={ this.onChangeQuery }/><br /><br />
-
+          <Input
+          autoFocus
+          primary
+          placeholder="Search/Add to do!"
+          value={ searchPhrase }
+          onChange={ this.onChangeQuery }
+          /><br /><br />
+          <Button primary>Submit</Button>
         </form>
         {
           tasks
           .filter(task => task.name.includes(searchPhrase))
           .map(task => ([
-            <Notification primary={task.complete}
-            onClick={() => this.changeCompletedStatus(task.id) }>
-              <p>{task.name}</p>
-              <p>{task.date.toLocaleString()}</p>
-            </Notification>
+              <Notification primary={task.complete}
+              onClick={() => this.changeCompletedStatus(task.id) }>
+                <Title is='5'>{task.name}</Title>
+                <SubTitle is='6'>{task.date.toLocaleString()}</SubTitle>
+              </Notification>
           ]))
         }
-        <Button primary>Submit</Button>
       </div>
     );
   }

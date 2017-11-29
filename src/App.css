@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  animation: App-logo-spin infinite 0.5s linear;
   height: 80px;
 }
 
@@ -28,6 +28,16 @@
 
 .input {
   text-align: center;
+}
+
+.Title {
+  margin-bottom: 10px !important;
+}
+
+.notification {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
 }
 
 form {
