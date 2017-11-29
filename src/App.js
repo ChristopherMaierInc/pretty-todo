@@ -22,7 +22,7 @@ class App extends Component {
     // make a copy of the current tasks
     const currentTasks = [...this.state.tasks];
     // add the new task to our copy of tasks
-    currentTasks.push( this.state.searchPhrase );
+    currentTasks.unshift( this.state.searchPhrase );
     // Update the state with the new tasks
     this.setState({
       tasks: currentTasks,
