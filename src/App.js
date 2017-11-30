@@ -11,7 +11,8 @@ import {
   Content,
   Heading,
   Hero,
-  Icon
+  Icon,
+  Delete
 } from 'reactbulma';
 // import 'letteringjs';
 import jQuery from 'jquery';
@@ -26,12 +27,12 @@ class App extends Component {
       {
         id: 1,
         name: 'Do the washing',
-        date: new Date("July 21, 1983 01:15:00"),
+        date: new Date(),
         complete: false
       }, {
         id: 2,
         name: 'Become a JS Weapon',
-        date: new Date("July 21, 1983 01:15:00"),
+        date: new Date(),
         complete: false
       }
     ],
@@ -46,22 +47,35 @@ class App extends Component {
     // stop the browser from submitting the form
     event.preventDefault();
 
+
+
     // make a copy of the current tasks
     const currentTasks = [...this.state.tasks];
     const existingItem = this.state.tasks.find(task => task.name === this.state.searchPhrase);
 
-    // add the new task to our copy of tasks
-    !existingItem && currentTasks.unshift({id: genId(), name: this.state.searchPhrase, date: new Date(), complete: false});
+    // if the title isn't in our tasklist, add the new task to our copy of tasks
+    // UNSHIFT adds the task to the TOP of the list as opposed to the end
+    !existingItem && currentTasks.unshift({
+      id: genId(),
+      name: this.state.searchPhrase,
+      date: new Date(),
+      complete: false
+    });
 
     // Update the state with the new tasks
-    this.setState({tasks: currentTasks, searchPhrase: ''})
+    this.setState({
+      tasks: currentTasks,
+      searchPhrase: ''
+    })
   }
 
   changeCompletedStatus = (id) => {
     const currentTasks = [...this.state.tasks];
     const taskIndex = currentTasks.findIndex(task => task.id === id)
     currentTasks[taskIndex].complete = !currentTasks[taskIndex].complete
-    this.setState(prevState => ({tasks: currentTasks}))
+    this.setState(prevState => ({
+      tasks: currentTasks
+    }))
   }
 
   render() {
@@ -82,15 +96,24 @@ class App extends Component {
         </Hero.Body>
       </Hero>
       <Header totalTasks={tasks.length} totalIncomplete={tasks.filter(task => !task.complete).length} totalComplete={tasks.filter(task => task.complete).length}/>
-      <Container fluid="fluid">
+      <Container fluid>
         <form onSubmit={this.addTask}>
-          <Input autoFocus primary medium placeholder="Search or Add a New Task!" value={searchPhrase} onChange={this.onChangeQuery}/><br/><br/>
+          <Input autoFocus primary medium
+          placeholder="Search or Add a New Task!"
+          value={ searchPhrase }
+          onChange={ this.onChangeQuery
+          }/>
+          <br/><br/>
           <Button primary outlined medium>Submit</Button>
         </form>
         {
-          tasks.filter(task => task.name.includes(searchPhrase)).map(task => ([<Notification primary={task.complete} bold onClick={() => this.changeCompletedStatus(task.id)}>
+          tasks.filter(task => task.name.includes(searchPhrase))
+          .map(task => ([<Notification primary={task.complete}
+            bold onClick={() => this.changeCompletedStatus(task.id)
+            }>
+            <Delete />
             <SubTitle is='3'>{task.name}</SubTitle>
-            <Heading>{task.date.toLocaleString()}</Heading>
+            <Heading>{ task.date.toLocaleString() }</Heading>
           </Notification>
             ]))
         }
